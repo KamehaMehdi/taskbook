@@ -9,9 +9,13 @@ const {default: defaultConfig} = pkg.configuration;
 
 class Config {
   constructor() {
-    this._configFile = join(os.homedir(), '.taskbook.json');
+    this._configFile = join(this.configExist(), '.taskbook.json');
 
     this._ensureConfigFile();
+  }
+
+  configExist() {
+    return fs.readdirSync(process.cwd()).find(config => config === '.taskbook.json') ? process.cwd() : os.homedir();
   }
 
   _ensureConfigFile() {
@@ -24,7 +28,7 @@ class Config {
   }
 
   _formatTaskbookDir(path) {
-    return join(os.homedir(), path.replace(/^~/g, ''));
+    return join(this.configExist(), path.replace(/^~/g, ''));
   }
 
   get() {
@@ -34,6 +38,8 @@ class Config {
     config = JSON.parse(content);
 
     if (config.taskbookDirectory.startsWith('~')) {
+      config.taskbookDirectory = this._formatTaskbookDir(config.taskbookDirectory);
+    } else if (config.taskbookDirectory.startsWith('/')) {
       config.taskbookDirectory = this._formatTaskbookDir(config.taskbookDirectory);
     }
 
