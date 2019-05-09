@@ -78,6 +78,10 @@ const cli = meow(help, {
     },
     clear: {
       type: 'boolean'
+    },
+    watch: {
+      type: 'boolean',
+      alias: 'w'
     }
   }
 });

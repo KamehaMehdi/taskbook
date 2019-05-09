@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const fs = require('fs');
 const clipboardy = require('clipboardy');
 const Task = require('./task');
 const Note = require('./note');
@@ -404,6 +405,14 @@ class Taskbook {
 
   displayStats() {
     render.displayStats(this._getStats());
+  }
+
+  displayWatch(path) {
+    fs.watch(path, () => {
+      console.clear();
+      this.displayByBoard();
+      return this.displayStats();
+    });
   }
 
   editDescription(input) {

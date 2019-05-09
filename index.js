@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 'use strict';
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
 const taskbook = require('./src/taskbook');
+
+const {join} = path;
 
 const taskbookCLI = (input, flags) => {
   if (flags.archive) {
@@ -67,6 +72,16 @@ const taskbookCLI = (input, flags) => {
 
   if (flags.clear) {
     return taskbook.clear();
+  }
+
+  if (flags.watch) {
+    const taskbookDirExist = fs.readdirSync(join(process.cwd())).find(dir => dir === '.taskbook');
+    console.clear();
+    taskbook.displayByBoard();
+    taskbook.displayStats();
+    return taskbookDirExist ?
+      taskbook.displayWatch(join(process.cwd(), '.taskbook/storage/storage.json')) :
+      taskbook.displayWatch(join(os.homedir(), '.taskbook/storage/storage.json'));
   }
 
   taskbook.displayByBoard();
