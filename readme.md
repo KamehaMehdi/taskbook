@@ -11,8 +11,8 @@
 </div>
 
 <p align="center">
-  <a href="https://travis-ci.com/klaussinani/taskbook">
-    <img alt="Build Status" src="https://travis-ci.com/klaussinani/taskbook.svg?branch=master">
+  <a href="https://travis-ci.com/kamehamehdi/taskbook">
+    <img alt="Build Status" src="https://travis-ci.com/kamehamehdi/taskbook.svg?branch=master">
   </a>
 </p>
 
@@ -41,6 +41,7 @@ Come over to [Gitter](https://gitter.im/klaussinani/taskbook) or [Twitter](https
 - Update notifications
 - Configurable through `~/.taskbook.json`
 - Data stored in JSON file at `~/.taskbook/storage`
+- You can have different instance of taskbook
 
 View highlights in a [taskbook board](https://raw.githubusercontent.com/klaussinani/taskbook/master/media/highlights.png).
 
@@ -109,9 +110,11 @@ $ tb --help
       --task, -t         Create task
       --timeline, -i     Display timeline view
       --version, -v      Display installed version
+      --watch, -w        Always update your board view
 
     Examples
       $ tb
+      $ tb --watch
       $ tb --archive
       $ tb --begin 2 3
       $ tb --check 1 2
@@ -163,6 +166,21 @@ The following illustrates all the available options with their respective defaul
   "displayProgressOverview": true
 }
 ```
+
+## Different instance
+
+You can create instance of taskbook on any directory that you want by simply creating a `.taskbook.json` file in the directory. You can configure the file manualy, or if there is nothing in `.taskbook.json`, it will be fill with the default configuration above.
+
+```json
+{
+  "taskbookDirectory": "/",
+  "displayCompleteTasks": true,
+  "displayProgressOverview": true
+}
+```
+
+This will create a .taskbook directory to your actual directory, and add `.taskbook/` and `.taskbook.json` to your `.gitignore`.
+If your make command on this directory, all modification will be made on the `.taskbook/` directory
 
 ### In Detail
 
@@ -348,6 +366,14 @@ To search for one of more items, use the `--find`/`-f` option, followed by your 
 
 ```
 $ tb -f documentation
+```
+
+### Watch
+
+To always update your board, use the `--watch`/`-w` option.
+
+```
+$ tb -w
 ```
 
 ## Development
